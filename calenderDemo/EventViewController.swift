@@ -18,6 +18,12 @@ class EventViewController: UIViewController, UIToolbarDelegate, UIPickerViewDele
     var toolBar:UIToolbar!
     var datePicker: UIDatePicker = UIDatePicker()
     var startOrEnd = true
+    var selectedStartDay = Date()
+    var selectedEndDay = Date()
+    
+    private var realm: Realm!
+    private var schedule: Results<Schedule>!
+    private var token: NotificationToken!
 
     
     override func viewDidLoad() {
@@ -56,10 +62,10 @@ class EventViewController: UIViewController, UIToolbarDelegate, UIPickerViewDele
         
         if startOrEnd == true {
             startDayField.text = "\(formatter.string(from: datePicker.date))"
-            let selectedStartDay = datePicker.date
+            selectedStartDay = datePicker.date
         } else {
             endDayField.text = "\(formatter.string(from: datePicker.date))"
-            let selectedEndDay = datePicker.date
+            selectedEndDay = datePicker.date
         }
     }
     
@@ -95,12 +101,56 @@ class EventViewController: UIViewController, UIToolbarDelegate, UIPickerViewDele
     //追加ボタンの処理
     @IBAction func addSchedule(_ sender: Any) {
         
-        //前のページへ戻る
-        dismiss(animated: true, completion: nil)
+        //メモ以外のtextfieldが空でないかの確認
+        
+        if !(titleField.text?.isEmpty)! || !(startDayField.text?.isEmpty)! || !(endDayField.text?.isEmpty)! {
+            
+            //埋まっている場合→保存処理
+            let addedTitle = titleField.text
+            let addedMemo = memoField.text
+            
+            let calendar = Calendar(identifier: .gregorian)
+            
+            //日付の加算(なぜか1日前が取得されるので)
+            selectedStartDay = calendar.date(byAdding: .day, value: 1, to: selectedStartDay)!
+            selectedEndDay = calendar.date(byAdding: .day, value: 1, to: selectedEndDay)!
+
+            //roundDateで日付を整形
+            let start_date_rounded =  roundDate(selectedStartDay, calendar: calendar)
+            let end_date_rounded =  roundDate(selectedEndDay, calendar: calendar)
+            
+            let Item = [Schedule(value: ["title": addedTitle!, "memo": addedMemo!, "startDate": start_date_rounded, "endDate": end_date_rounded])]
+            
+            //保存
+            realm = try! Realm()
+            try! self.realm.write {
+                self.realm.add(Item)
+                print("addSuccessed", Item)
+            }
+            //前のページへ戻る
+            dismiss(animated: true, completion: nil)
+            
+        } else {
+            
+            //空の場合→アラート表示
+            let title = "保存できません"
+            let message = "入力されていない箇所があります"
+            let okText = "ok"
+            
+            let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
+            let okayButton = UIAlertAction(title: okText, style: UIAlertAction.Style.cancel, handler: nil)
+            alert.addAction(okayButton)
+            
+            present(alert, animated: true, completion: nil)
+        }
+        
     }
     
-    
 
+    // Dateから年日月を抽出する関数
+    func roundDate(_ date: Date, calendar cal: Calendar) -> Date {
+        return cal.date(from: DateComponents(year: cal.component(.year, from: date), month: cal.component(.month, from: date), day: cal.component(.day, from: date)))!
+    }
     
 
     /*
