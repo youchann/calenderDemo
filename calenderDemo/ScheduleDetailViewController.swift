@@ -1,26 +1,30 @@
 //
-//  ButtonController.swift
+//  ScheduleDetailViewController.swift
 //  calenderDemo
 //
-//  Created by yutaro on 2018/10/10.
+//  Created by yutaro on 2018/10/14.
 //  Copyright © 2018年 yutaro. All rights reserved.
 //
 
 import UIKit
 
-class ButtonController: UIViewController {
+class ScheduleDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //ナビゲーションバーの非表示
-        self.navigationController?.setNavigationBarHidden(true, animated: true)
-        
+
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+
+
+        // Do any additional setup after loading the view.
     }
-    @IBAction func onClick(_ sender: UIButton) {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let SecondController = storyboard.instantiateViewController(withIdentifier: "Insert")
-        present(SecondController, animated: true, completion: nil)
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+
     }
+
+    
     
 
     /*

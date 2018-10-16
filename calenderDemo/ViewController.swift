@@ -11,7 +11,7 @@ import FSCalendar
 import CalculateCalendarLogic
 import RealmSwift
 
-class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,FSCalendarDelegate,FSCalendarDataSource,FSCalendarDelegateAppearance{
+class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,FSCalendarDelegate,FSCalendarDataSource,FSCalendarDelegateAppearance{
     
     @IBOutlet var tableView:UITableView!
     @IBOutlet weak var calender: FSCalendar!
@@ -23,6 +23,7 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         realm = try! Realm()
         
         //test追加(追加の際は日付と時刻に注意!)
@@ -150,6 +151,15 @@ class ViewController: UIViewController,UITableViewDelegate,UITableViewDataSource
         cell.textLabel?.text = item.title
         return cell
     }
+    
+    //スケジュール詳細への画面遷移
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("a")
+        let vc = storyboard?.instantiateViewController(withIdentifier: "detail")
+        navigationController?.pushViewController(vc!, animated: true)
+        print("a")
+    }
+
     
     
 }
