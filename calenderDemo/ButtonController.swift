@@ -22,7 +22,16 @@ class ButtonController: UIViewController {
         present(SecondController, animated: true, completion: nil)
     }
     
-
+    
+    //push画面遷移から戻ってきた時
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //ナビゲーションバーの非表示
+        self.navigationController?.setNavigationBarHidden(true, animated: true)
+    }
+    
+    
     /*
     // MARK: - Navigation
 

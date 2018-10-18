@@ -17,13 +17,14 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     @IBOutlet weak var calender: FSCalendar!
     var selectedDate = Date()
     private var realm: Realm!
-    private var schedule: Results<Schedule>!
+    private var scheduleList: Results<Schedule>!
     private var token: NotificationToken!
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+
         realm = try! Realm()
         
         //test追加(追加の際は日付と時刻に注意!)
@@ -35,10 +36,27 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
 //            self.realm.add(Item)
 //            print("addSuccessed", Item)
 //        }
-        print(realm.objects(Schedule.self))
-//
-//        //リロード
+        
+        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            
+            let result = realm.objects(Schedule.self).filter("startDate <= %@ AND %@ <= endDate", selectedDate, selectedDate)
+            print("1")
+            return result.count
+        }
+        //セルの中身
+        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "calendarCell", for: indexPath)
+            //        let result = realm.objects(Schedule.self).filter("startDate <= %@ AND %@ <= endDate", selectedDate, selectedDate)
+            scheduleList = realm.objects(Schedule.self).filter("startDate <= %@ AND %@ <= endDate", selectedDate, selectedDate)
+            let item = scheduleList[indexPath.row]
+            cell.textLabel?.text = item.title
+            print("2")
+            return cell
+        }
+
+        //リロード
         self.tableView.reloadData()
+        
         // デリゲートの設定
 //        self.calendar.dataSource = self
 //        self.calendar.delegate = self
@@ -62,6 +80,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
+    
     
     fileprivate let gregorian: Calendar = Calendar(identifier: .gregorian)
     fileprivate lazy var dateFormatter: DateFormatter = {
@@ -134,8 +153,6 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     }
     
     
-    //最初のテーブル表示
-    
     //セルの数
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
@@ -146,20 +163,29 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     //セルの中身
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "calendarCell", for: indexPath)
-        let result = realm.objects(Schedule.self).filter("startDate <= %@ AND %@ <= endDate", selectedDate, selectedDate)
-        let item = result[indexPath.row]
+//        let result = realm.objects(Schedule.self).filter("startDate <= %@ AND %@ <= endDate", selectedDate, selectedDate)
+        scheduleList = realm.objects(Schedule.self).filter("startDate <= %@ AND %@ <= endDate", selectedDate, selectedDate)
+        let item = scheduleList[indexPath.row]
         cell.textLabel?.text = item.title
         return cell
     }
     
     //スケジュール詳細への画面遷移
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("a")
-        let vc = storyboard?.instantiateViewController(withIdentifier: "detail")
-        navigationController?.pushViewController(vc!, animated: true)
-        print("a")
+        
+        //インスタンスを生成(?)
+        let scheduleDetailView = storyboard?.instantiateViewController(withIdentifier: "detail") as! ScheduleDetailViewController
+        
+        //「選択した日付でフィルタリングされたリスト」と「タップされた行番号」を渡す
+        scheduleDetailView.scheduleList = scheduleList
+        scheduleDetailView.rowNum = indexPath.row
+        
+        //選択されている日付を渡す
+        scheduleDetailView.selectedDate = selectedDate
+        
+        navigationController?.pushViewController(scheduleDetailView, animated: true)
     }
-
+    
     
     
 }
