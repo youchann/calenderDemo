@@ -24,9 +24,9 @@
                                     <segue destination="BYZ-38-t0r" kind="embed" id="iDf-5r-uB0"/>
                                 </connections>
                             </containerView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Myg-xp-txA">
-                                <rect key="frame" x="309" y="617" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Myg-xp-txA">
+                                <rect key="frame" x="291" y="583" width="64" height="64"/>
+                                <state key="normal" image="プラスマークアイコン 2"/>
                                 <connections>
                                     <action selector="onClick:" destination="Ows-pF-Qlg" eventType="touchUpInside" id="BC5-cF-OSd"/>
                                 </connections>
@@ -401,4 +401,7 @@
             <point key="canvasLocation" x="-1474" y="-180"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="プラスマークアイコン 2" width="64" height="64"/>
+    </resources>
 </document>
