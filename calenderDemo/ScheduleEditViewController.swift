@@ -125,18 +125,7 @@ class ScheduleEditViewController: UIViewController, UIToolbarDelegate, UIPickerV
     
     //戻るボタンの処理
     @IBAction func cancelButton(_ sender: Any) {
-//        dismiss(animated: true, completion: nil)
-//        navigationController?.popToRootViewController(animated: true)
-        
-//        self.dismiss(animated: true, completion: {
-//            // ここを記述することでAのエラーが消える
-//            self.navigationController?.popToRootViewController(animated: true)
-//        })
-        let controller = self.presentingViewController as? ScheduleDetailViewController
-        self.dismiss(animated: true, completion: {
-//            controller?.scheduleTitle.text = "a"
-        })
-
+        dismiss(animated: true, completion: nil)
     }
     
     
@@ -156,29 +145,56 @@ class ScheduleEditViewController: UIViewController, UIToolbarDelegate, UIPickerV
             //日付の加算(なぜか1日前が取得されるので)
             selectedStartDay = calendar.date(byAdding: .day, value: 1, to: selectedStartDay)!
             selectedEndDay = calendar.date(byAdding: .day, value: 1, to: selectedEndDay)!
-
+            
             //roundDateで日付を整形
             let start_date_rounded =  roundDate(selectedStartDay, calendar: calendar)
             let end_date_rounded =  roundDate(selectedEndDay, calendar: calendar)
 
-            //保存
-            realm = try! Realm()
             
             //全件のオブジェクトを取得→フィルタリング
+            realm = try! Realm()
             let objects = realm.objects(Schedule.self)
             let selectedObj = objects.filter("title == %@ AND memo == %@ AND startDate == %@ AND endDate == %@", scheduleList[rowNum].title, scheduleList[rowNum].memo, scheduleList[rowNum].startDate, scheduleList[rowNum].endDate)
             
-            
+            //書き込み
             selectedObj.forEach { selectedObj in
             try! self.realm.write {
-                selectedObj.endDate = end_date_rounded
-                selectedObj.startDate = start_date_rounded
-                selectedObj.memo = addedMemo!
                 selectedObj.title = addedTitle!
+                selectedObj.memo = addedMemo!
+                selectedObj.startDate = start_date_rounded
+                selectedObj.endDate = end_date_rounded
             }
             }
-            //前のページへ戻る
-            dismiss(animated: true, completion: nil)
+            
+            //入力された日付をstring型に変更
+            let dateFormatter = DateFormatter()
+            dateFormatter.locale = NSLocale(localeIdentifier: "ja_JP") as Locale
+            dateFormatter.dateFormat = "MM/dd"
+            //日付の加算(なぜか1日前が取得されるので)
+            selectedStartDay = calendar.date(byAdding: .day, value: -1, to: selectedStartDay)!
+            selectedEndDay = calendar.date(byAdding: .day, value: -1, to: selectedEndDay)!
+            let startDateText = dateFormatter.string(from: selectedStartDay)
+            let endDateText = dateFormatter.string(from: selectedEndDay)
+            
+            
+            //前の画面に戻る処理
+            // 表示の大元がViewControllerかNavigationControllerかで戻る場所を判断する
+            if self.presentingViewController is UINavigationController {
+                //  表示の大元がNavigationControllerの場合
+                let nc = self.presentingViewController as! UINavigationController
+                // 前画面のViewControllerを取得
+                let vc = nc.topViewController as! ScheduleDetailViewController
+                // 前画面のlabelを更新
+                vc.scheduleTitle.text = addedTitle
+                vc.scheduleMemo.text = addedMemo
+                vc.scheduleStartDay.text = startDateText
+                vc.scheduleEndDay.text = endDateText
+
+                // 今の画面を消して、前画面を表示させる
+                self.dismiss(animated: true, completion: nil)
+            }
+            // 画面を閉じる
+//            self.dismiss(animated: true, completion: nil)
             
         } else {
             

@@ -16,6 +16,12 @@ class ScheduleDetailViewController: UIViewController {
     var selectedDate:Date!
     private var realm: Realm!
     
+    //スケジュール更新後のテキスト
+    var updatedTitle = ""
+    var updatedMemo = ""
+    var updatedStartDay = ""
+    var updatedEndDay = ""
+
     @IBOutlet weak var scheduleTitle: UILabel!
     @IBOutlet weak var scheduleStartDay: UILabel!
     @IBOutlet weak var scheduleEndDay: UILabel!
@@ -26,6 +32,7 @@ class ScheduleDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(scheduleList)
         
         // 編集ボタンとアクションの設定
         let rightEditBarButtonItem:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.compose, target: self, action:#selector(self.editButtonTapped))
@@ -118,7 +125,7 @@ class ScheduleDetailViewController: UIViewController {
         
         present(SecondController, animated: true, completion: nil)
     }
-    
+
     
 
     /*
@@ -132,3 +139,4 @@ class ScheduleDetailViewController: UIViewController {
     */
 
 }
+

@@ -40,6 +40,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             
             let result = realm.objects(Schedule.self).filter("startDate <= %@ AND %@ <= endDate", selectedDate, selectedDate)
+            print("1")
             return result.count
         }
         //セルの中身
