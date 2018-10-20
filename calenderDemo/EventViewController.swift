@@ -33,13 +33,12 @@ class EventViewController: UIViewController, UIToolbarDelegate, UIPickerViewDele
         datePicker.datePickerMode = UIDatePicker.Mode.date
         datePicker.timeZone = NSTimeZone.local
         datePicker.locale = Locale.current
+        //ピッカーをいじった時の設定
+        datePicker.addTarget(self, action: #selector(self.changeDate(sender:)), for: .valueChanged)
 
         // UIToolBarの設定
         toolBar = UIToolbar(frame: CGRect(x: 0, y: 0, width: view.frame.size.width, height: 35))
         toolBar.layer.position = CGPoint(x: self.view.frame.size.width/2, y: self.view.frame.size.height-20.0)
-        toolBar.barStyle = .blackTranslucent
-        toolBar.tintColor = UIColor.white
-        toolBar.backgroundColor = UIColor.black
 
         let toolBarBtn      = UIBarButtonItem(title: "完了", style: .plain , target: self, action: #selector(done))
         let toolBarBtnToday = UIBarButtonItem(title: "今日", style: .plain , target: self, action: #selector(today))
@@ -67,6 +66,8 @@ class EventViewController: UIViewController, UIToolbarDelegate, UIPickerViewDele
             endDayField.text = "\(formatter.string(from: datePicker.date))"
             selectedEndDay = datePicker.date
         }
+        self.view.endEditing(true)
+
     }
     
     //UIDatePicker「今日」ボタンの処理
@@ -77,9 +78,29 @@ class EventViewController: UIViewController, UIToolbarDelegate, UIPickerViewDele
         
         if startOrEnd == true {
             startDayField.text = "\(formatter.string(from: Date()))"
+            selectedStartDay = Date()
         } else {
             endDayField.text = "\(formatter.string(from: Date()))"
+            selectedEndDay = Date()
         }
+        self.view.endEditing(true)
+
+    }
+    
+    //UIDatePicker値を常に表示
+    @objc internal func changeDate(sender: UIDatePicker){
+        // 日付のフォーマット
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        
+        if startOrEnd == true {
+            startDayField.text = "\(formatter.string(from: datePicker.date))"
+            selectedStartDay = datePicker.date
+        } else {
+            endDayField.text = "\(formatter.string(from: datePicker.date))"
+            selectedEndDay = datePicker.date
+        }
+        
     }
     
     //startDayFieldをタップした時
