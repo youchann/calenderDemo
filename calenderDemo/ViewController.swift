@@ -98,6 +98,17 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         return nil
     }
     
+    //点マークをつける関数
+    func calendar(_ calendar: FSCalendar, hasEventFor date: Date) -> Bool {
+        let calendar = Calendar(identifier: .gregorian)
+        let realDate = calendar.date(byAdding: .day, value: +1, to: date)!
+        let result = realm.objects(Schedule.self).filter("startDate <= %@ AND %@ <= endDate", realDate, realDate).count
+        if result > 0{
+            return true
+        } else {
+            return false
+        }
+    }
     
     
     // Dateから年日月を抽出する関数
