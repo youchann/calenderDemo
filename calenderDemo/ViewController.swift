@@ -161,6 +161,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     
     //繊維から戻ってきた時の処理
     override func viewDidAppear(_ animated: Bool){
+        calender.reloadData()
         self.tableView.reloadData()
     }
     
