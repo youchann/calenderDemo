@@ -24,55 +24,16 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
         realm = try! Realm()
         
-        //test追加(追加の際は日付と時刻に注意!)
-//        let today_date = Date()
-//        let calendar = Calendar(identifier: .gregorian)
-//        let today_date_rounded =  roundDate(today_date, calendar: calendar)
-//        let Item = [Schedule(value: ["title": "test", "memo": "test", "startDate": today_date_rounded, "endDate": today_date_rounded])]
-//        try! self.realm.write {
-//            self.realm.add(Item)
-//            print("addSuccessed", Item)
-//        }
-        
-        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            
-            let result = realm.objects(Schedule.self).filter("startDate <= %@ AND %@ <= endDate", selectedDate, selectedDate)
-            print("1")
-            return result.count
-        }
-        //セルの中身
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "calendarCell", for: indexPath)
-            //        let result = realm.objects(Schedule.self).filter("startDate <= %@ AND %@ <= endDate", selectedDate, selectedDate)
-            scheduleList = realm.objects(Schedule.self).filter("startDate <= %@ AND %@ <= endDate", selectedDate, selectedDate)
-            let item = scheduleList[indexPath.row]
-            cell.textLabel?.text = item.title
-            return cell
-        }
-
-        //リロード
-        self.tableView.reloadData()
-        
-        // デリゲートの設定
-//        self.calendar.dataSource = self
-//        self.calendar.delegate = self
+        let calendar = Calendar(identifier: .gregorian)
+        //選択状態
+        calender.select(selectedDate)
+        //日付を整形
+        selectedDate = roundDate(selectedDate, calendar: calendar)
+        selectedDate = calendar.date(byAdding: .day, value: 1, to: selectedDate)!
         
     }
-    
-    //データの更新するごとに実行する処理
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        
-        // RealmのScheduleを取得し，更新を監視
-        realm = try! Realm()
-//        token = schedule.observe { [weak self] _ in
-//            self!.tableView.reloadData()
-//        }
-    }
-    
     
     
     override func didReceiveMemoryWarning() {
@@ -137,6 +98,8 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         return nil
     }
     
+    
+    
     // Dateから年日月を抽出する関数
     func roundDate(_ date: Date, calendar cal: Calendar) -> Date {
         return cal.date(from: DateComponents(year: cal.component(.year, from: date), month: cal.component(.month, from: date), day: cal.component(.day, from: date)))!
@@ -159,10 +122,10 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         print(selectedDate)
         return result.count
     }
+    
     //セルの中身
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "calendarCell", for: indexPath)
-//        let result = realm.objects(Schedule.self).filter("startDate <= %@ AND %@ <= endDate", selectedDate, selectedDate)
         scheduleList = realm.objects(Schedule.self).filter("startDate <= %@ AND %@ <= endDate", selectedDate, selectedDate)
         let item = scheduleList[indexPath.row]
         cell.textLabel?.text = item.title
@@ -185,6 +148,10 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         navigationController?.pushViewController(scheduleDetailView, animated: true)
     }
     
+    //繊維から戻ってきた時の処理
+    override func viewDidAppear(_ animated: Bool){
+        self.tableView.reloadData()
+    }
     
     
 }
