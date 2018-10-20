@@ -11,7 +11,7 @@ import FSCalendar
 import CalculateCalendarLogic
 import RealmSwift
 
-class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,FSCalendarDelegate,FSCalendarDataSource,FSCalendarDelegateAppearance{
+class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate,FSCalendarDelegate,FSCalendarDataSource,FSCalendarDelegateAppearance {
     
     @IBOutlet var tableView:UITableView!
     @IBOutlet weak var calender: FSCalendar!
@@ -19,6 +19,8 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
     private var realm: Realm!
     private var scheduleList: Results<Schedule>!
     private var token: NotificationToken!
+
+    
     
     
     override func viewDidLoad() {
@@ -121,6 +123,7 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         //日付の取得(なぜか1日前が取得されるので調節した)
         selectedDate = date
         let calendar = Calendar.current
+        globalDate = selectedDate //追加時の画面に日付を加えるため
         selectedDate = calendar.date(byAdding: .day, value: 1, to: selectedDate)!
         self.tableView.reloadData()
     }

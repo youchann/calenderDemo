@@ -8,7 +8,11 @@
 
 import UIKit
 
+// global
+var globalDate:Date = Date()
+
 class ButtonController: UIViewController {
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,7 +24,8 @@ class ButtonController: UIViewController {
     //追加ボタンを押した時の処理
     @IBAction func onClick(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let SecondController = storyboard.instantiateViewController(withIdentifier: "Insert")
+        let SecondController = storyboard.instantiateViewController(withIdentifier: "Insert") as! EventViewController
+        
         present(SecondController, animated: true, completion: nil)
     }
     

@@ -50,6 +50,16 @@ class EventViewController: UIViewController, UIToolbarDelegate, UIPickerViewDele
         startDayField.inputAccessoryView = toolBar
         endDayField.inputView = datePicker
         endDayField.inputAccessoryView = toolBar
+        
+        
+        // 日付のフォーマット
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        //初期値
+        startDayField.text = "\(formatter.string(from: globalDate))"
+        endDayField.text = "\(formatter.string(from: globalDate))"
+        selectedStartDay = globalDate
+        selectedEndDay = globalDate
     }
     
     
