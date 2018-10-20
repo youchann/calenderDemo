@@ -27,6 +27,11 @@ class ScheduleDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // 編集ボタンとアクションの設定
+        let rightEditBarButtonItem:UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.compose, target: self, action:#selector(self.editButtonTapped))
+        // ナビゲーションバーにボタンを追加
+        self.navigationItem.setRightBarButtonItems([rightEditBarButtonItem], animated: true)
+        
         //なぜか日付が+1されているので調整
         let calendar = Calendar.current
         selectedDate = calendar.date(byAdding: .day, value: -1, to: selectedDate)!
@@ -101,8 +106,18 @@ class ScheduleDetailViewController: UIViewController {
     }
     
     
-    
-    
+    //編集ボタンをタップした時の処理
+    @objc func editButtonTapped(){
+        let storyboard = UIStoryboard(name: "Main", bundle: nil)
+        let SecondController = storyboard.instantiateViewController(withIdentifier: "Edit") as! ScheduleEditViewController
+        
+        //「選択した日付でフィルタリングされたリスト」と「タップされた行番号」を渡す
+        SecondController.scheduleList = scheduleList
+        SecondController.rowNum = rowNum
+        
+        
+        present(SecondController, animated: true, completion: nil)
+    }
     
     
 

@@ -16,6 +16,8 @@ class ButtonController: UIViewController {
         self.navigationController?.setNavigationBarHidden(true, animated: true)
         
     }
+    
+    //追加ボタンを押した時の処理
     @IBAction func onClick(_ sender: UIButton) {
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
         let SecondController = storyboard.instantiateViewController(withIdentifier: "Insert")

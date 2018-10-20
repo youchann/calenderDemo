@@ -40,7 +40,6 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
         func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             
             let result = realm.objects(Schedule.self).filter("startDate <= %@ AND %@ <= endDate", selectedDate, selectedDate)
-            print("1")
             return result.count
         }
         //セルの中身
@@ -50,7 +49,6 @@ class ViewController: UIViewController,UITableViewDataSource,UITableViewDelegate
             scheduleList = realm.objects(Schedule.self).filter("startDate <= %@ AND %@ <= endDate", selectedDate, selectedDate)
             let item = scheduleList[indexPath.row]
             cell.textLabel?.text = item.title
-            print("2")
             return cell
         }
 

@@ -19,6 +19,7 @@
 		DB35104D216B8CD9004AF5CF /* calenderDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB35104C216B8CD9004AF5CF /* calenderDemoUITests.swift */; };
 		DB35105B216C288C004AF5CF /* data.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB35105A216C288C004AF5CF /* data.swift */; };
 		DB35105F216D6236004AF5CF /* EventViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB35105E216D6236004AF5CF /* EventViewController.swift */; };
+		DB7525A1217847C0006F46F1 /* ScheduleEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7525A0217847C0006F46F1 /* ScheduleEditViewController.swift */; };
 		DB7C6A9A216D7B980000F087 /* ButtonController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB7C6A99216D7B980000F087 /* ButtonController.swift */; };
 		DB94B1A7217344850046C02B /* ScheduleDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB94B1A6217344850046C02B /* ScheduleDetailViewController.swift */; };
 /* End PBXBuildFile section */
@@ -64,6 +65,7 @@
 		DB35104E216B8CD9004AF5CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB35105A216C288C004AF5CF /* data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = data.swift; sourceTree = "<group>"; };
 		DB35105E216D6236004AF5CF /* EventViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventViewController.swift; sourceTree = "<group>"; };
+		DB7525A0217847C0006F46F1 /* ScheduleEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleEditViewController.swift; sourceTree = "<group>"; };
 		DB7C6A99216D7B980000F087 /* ButtonController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonController.swift; sourceTree = "<group>"; };
 		DB94B1A6217344850046C02B /* ScheduleDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleDetailViewController.swift; sourceTree = "<group>"; };
 		EEE3FE8D2C49EAE691E24D37 /* Pods_calenderDemoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_calenderDemoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -151,6 +153,7 @@
 				DB7C6A99216D7B980000F087 /* ButtonController.swift */,
 				DB35105E216D6236004AF5CF /* EventViewController.swift */,
 				DB94B1A6217344850046C02B /* ScheduleDetailViewController.swift */,
+				DB7525A0217847C0006F46F1 /* ScheduleEditViewController.swift */,
 				DB35105A216C288C004AF5CF /* data.swift */,
 				DB351033216B8CD9004AF5CF /* Assets.xcassets */,
 				DB351035216B8CD9004AF5CF /* LaunchScreen.storyboard */,
@@ -411,6 +414,7 @@
 			files = (
 				DB94B1A7217344850046C02B /* ScheduleDetailViewController.swift in Sources */,
 				DB35102F216B8CD6004AF5CF /* ViewController.swift in Sources */,
+				DB7525A1217847C0006F46F1 /* ScheduleEditViewController.swift in Sources */,
 				DB35105F216D6236004AF5CF /* EventViewController.swift in Sources */,
 				DB7C6A9A216D7B980000F087 /* ButtonController.swift in Sources */,
 				DB35105B216C288C004AF5CF /* data.swift in Sources */,
