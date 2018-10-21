@@ -25,7 +25,7 @@ class ScheduleDetailViewController: UIViewController {
     @IBOutlet weak var scheduleTitle: UILabel!
     @IBOutlet weak var scheduleStartDay: UILabel!
     @IBOutlet weak var scheduleEndDay: UILabel!
-    @IBOutlet weak var scheduleMemo: UITextView!
+    @IBOutlet weak var scheduleMemo: UILabel!
     
     
 
@@ -60,6 +60,14 @@ class ScheduleDetailViewController: UIViewController {
         //ナビゲーションバーの表示
         self.navigationController?.setNavigationBarHidden(false, animated: true)
         self.navigationItem.title = titleDate
+        
+        //メモ欄の調整
+        //表示可能最大行数を指定
+        scheduleMemo.numberOfLines = 0
+        //contentsのサイズに合わせてobujectのサイズを変える
+        scheduleMemo.sizeToFit()
+        //単語の途中で改行されないようにする
+        scheduleMemo.lineBreakMode = NSLineBreakMode.byWordWrapping
         
         //選択された予定の表示
         scheduleTitle.text = scheduleList[rowNum].title
