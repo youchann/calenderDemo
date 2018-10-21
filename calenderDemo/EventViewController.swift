@@ -116,11 +116,14 @@ class EventViewController: UIViewController, UIToolbarDelegate, UIPickerViewDele
     //startDayFieldをタップした時
     @IBAction func tappedStartField(_ sender: Any) {
         startOrEnd = true
+        datePicker.date = selectedStartDay
     }
     
     //endDayFieldをタップした時
     @IBAction func tappedEndField(_ sender: Any) {
         startOrEnd = false
+        datePicker.date = selectedEndDay
+
     }
     
     
@@ -134,7 +137,7 @@ class EventViewController: UIViewController, UIToolbarDelegate, UIPickerViewDele
         
         //メモ以外のtextfieldが空でないかの確認
         
-        if !(titleField.text?.isEmpty)! || !(startDayField.text?.isEmpty)! || !(endDayField.text?.isEmpty)! {
+        if !(titleField.text?.isEmpty)! && !(startDayField.text?.isEmpty)! && !(endDayField.text?.isEmpty)! && selectedStartDay <= selectedEndDay {
             
             //埋まっている場合→保存処理
             let addedTitle = titleField.text
@@ -165,7 +168,7 @@ class EventViewController: UIViewController, UIToolbarDelegate, UIPickerViewDele
             
             //空の場合→アラート表示
             let title = "保存できません"
-            let message = "入力されていない箇所があります"
+            let message = "適切に入力しましょう"
             let okText = "ok"
             
             let alert = UIAlertController(title: title, message: message, preferredStyle: UIAlertController.Style.alert)
